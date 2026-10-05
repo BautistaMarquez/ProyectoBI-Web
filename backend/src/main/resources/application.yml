@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: bi-analytics
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://login.microsoftonline.com/${AZURE_TENANT_ID}/v2.0
+
+security:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000,http://localhost:4200}
+
+powerbi:
+  tenant-id: ${AZURE_TENANT_ID}
+  client-id: ${AZURE_CLIENT_ID}
+  client-secret: ${AZURE_CLIENT_SECRET}
+  workspace-id: ${PBI_WORKSPACE_ID}
+  dataset-id: ${PBI_DATASET_ID}
+  api-url: https://api.powerbi.com/v1.0/myorg
+  authority: https://login.microsoftonline.com/${AZURE_TENANT_ID}
+  scope: https://analysis.windows.net/powerbi/api/.default

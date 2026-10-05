@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: bi-analytics
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://login.microsoftonline.com/test-tenant-id/v2.0
+
+security:
+  cors:
+    allowed-origins: http://localhost:5173
+
+powerbi:
+  tenant-id: test-tenant-id
+  client-id: test-client-id
+  client-secret: test-client-secret
+  workspace-id: test-workspace-id
+  dataset-id: test-dataset-id
+  api-url: https://api.powerbi.com/v1.0/myorg
+  authority: https://login.microsoftonline.com/test-tenant-id
+  scope: https://analysis.windows.net/powerbi/api/.default

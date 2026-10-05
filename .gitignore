@@ -1,0 +1,25 @@
+# Secretos y entorno local
+.env
+.env.local
+*.local
+backend/src/main/resources/application-local.yml
+
+# Maven / Java
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+
+# Node / Vite / Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.pnpm-store/
+
+# IDEs y herramientas de IA
+.idea/
+.vscode/
+*.iml
+.claude/
+*.log
+.DS_Store
+
+consultas_dax.md
