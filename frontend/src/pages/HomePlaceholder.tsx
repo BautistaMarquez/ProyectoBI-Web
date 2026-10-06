@@ -14,23 +14,37 @@ const DESCRIPTIONS: Record<string, string> = {
 
 const ICON_TONES = ['bg-cyan/10 text-cyan', 'bg-purple/10 text-purple']
 
-function HomeSkeleton() {
+function HomeLoader() {
   return (
-    <ul className="grid animate-pulse grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" aria-busy="true">
-      {Array.from({ length: 6 }, (_, i) => (
-        <li key={i} className="bg-slate-900/80 border border-slate-800 rounded-xl p-6 h-48 flex flex-col justify-between">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-slate-800" />
-              <div className="h-4 w-32 bg-slate-800 rounded" />
-            </div>
-            <div className="h-3 w-full bg-slate-800 rounded" />
-            <div className="h-3 w-2/3 bg-slate-800 rounded" />
-          </div>
-          <div className="h-4 w-20 bg-slate-800 rounded" />
-        </li>
-      ))}
-    </ul>
+    <div
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+      className="flex flex-col items-center justify-center gap-8 py-24"
+    >
+      <div className="relative flex h-24 w-24 items-center justify-center">
+        <span className="absolute inset-0 animate-ping rounded-full bg-cyan/20" />
+        <span className="absolute inset-0 rounded-full border-4 border-slate-200 dark:border-slate-800" />
+        <span className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-cyan border-r-purple [animation-duration:1.2s]" />
+        <span className="absolute inset-3 animate-spin rounded-full border-4 border-transparent border-b-magenta [animation-direction:reverse] [animation-duration:1.8s]" />
+        <span className="h-3 w-3 animate-pulse rounded-full bg-gradient-to-br from-cyan to-magenta" />
+      </div>
+      <div className="flex flex-col items-center gap-3">
+        <p className="text-sm font-semibold tracking-wide text-slate-600 dark:text-slate-300">
+          Preparando el panel
+        </p>
+        <div className="flex items-end gap-1.5" aria-hidden="true">
+          {['bg-cyan', 'bg-purple', 'bg-magenta'].map((tone, i) => (
+            <span
+              key={tone}
+              className={`h-2 w-2 animate-bounce rounded-full ${tone}`}
+              style={{ animationDelay: `${i * 150}ms` }}
+            />
+          ))}
+        </div>
+      </div>
+      <span className="sr-only">Cargando datos...</span>
+    </div>
   )
 }
 
@@ -49,7 +63,7 @@ export default function HomePlaceholder() {
       </header>
 
       {isLoading ? (
-        <HomeSkeleton />
+        <HomeLoader />
       ) : (
       <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {NAV_ITEMS.map((item, i) => (

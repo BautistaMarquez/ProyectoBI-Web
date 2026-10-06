@@ -21,7 +21,7 @@ export default function MainLayout() {
         {!isHome && <Sidebar collapsed={collapsed} onNavigate={() => setCollapsed(true)} />}
         <div className="flex min-w-0 flex-1 flex-col">
       <main className="min-h-screen flex-1 overflow-x-hidden bg-slate-50 p-6 dark:bg-slate-950">
-        {isLoading && (
+        {isLoading && !isHome && (
           <div className="flex items-center justify-center gap-2 py-16 text-slate-500">
             <Loader2 className="h-6 w-6 animate-spin" />
             Cargando datos...
@@ -34,7 +34,7 @@ export default function MainLayout() {
             {problem?.status !== undefined && <p className="text-xs">HTTP {problem.status}</p>}
           </div>
         )}
-        {!isLoading && !isError && <Outlet />}
+        {(!isLoading || isHome) && !isError && <Outlet />}
       </main>
           <Footer />
         </div>
