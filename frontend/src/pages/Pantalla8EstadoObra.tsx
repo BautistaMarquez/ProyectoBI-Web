@@ -3,6 +3,7 @@ import PageHeader from '../components/layout/PageHeader'
 import { NAV_ITEMS } from '../config/navigation'
 import { useCertificadosMaster, useObrasResumen } from '../hooks/useAnalyticsQueries'
 import { formatFechaCorta, formatMes, useFilteredCertificados } from '../hooks/useFilteredCertificados'
+import { tfootCls, theadCls, trBody } from '../components/tables/tableStyles'
 import type { CertificadoMaster, ObraResumen } from '../types/analytics'
 
 const PAGE_SIZE = 25
@@ -18,8 +19,8 @@ const formatAvance = (v: number | null) => (v === null ? '-' : pct.format(v > 1 
 
 const facturado = (c: CertificadoMaster) => c.sumaPorExpediente ?? c.montoAPagar ?? 0
 
-const th = 'whitespace-nowrap px-3 py-2 text-center text-xs font-semibold uppercase text-slate-600 dark:text-slate-300'
-const td = 'px-3 py-2 text-center text-sm text-slate-700 dark:text-slate-300'
+const th = 'whitespace-nowrap px-3 py-2 text-center'
+const td = 'px-3 py-2 text-center text-xs'
 
 function ObrasLoader() {
   return (
@@ -52,6 +53,86 @@ function ObrasLoader() {
   )
 }
 
+function ObraSelector({
+  obras,
+  selected,
+  onSelect,
+}: {
+  obras: ObraResumen[]
+  selected: ObraResumen | undefined
+  onSelect: (key: string) => void
+}) {
+  const [query, setQuery] = useState('')
+  const [open, setOpen] = useState(false)
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return q ? obras.filter((o) => obraLabel(o).toLowerCase().includes(q)) : obras
+  }, [obras, query])
+
+  const choose = (o: ObraResumen) => {
+    onSelect(obraKey(o))
+    setQuery('')
+    setOpen(false)
+  }
+
+  return (
+    <div className="relative max-w-md">
+      <input
+        type="text"
+        role="combobox"
+        aria-expanded={open}
+        aria-controls="obras-listbox"
+        aria-label="Obra"
+        autoComplete="off"
+        value={open ? query : selected ? obraLabel(selected) : query}
+        placeholder="Buscar obra..."
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        onChange={(e) => {
+          setQuery(e.target.value)
+          setOpen(true)
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') setOpen(false)
+          if (e.key === 'Enter' && filtered.length > 0) {
+            e.preventDefault()
+            choose(filtered[0])
+          }
+        }}
+        className="w-full rounded-lg border-2 border-purple/50 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:border-cyan focus:outline-none focus:ring-2 focus:ring-cyan/30 dark:bg-slate-800/60 dark:text-slate-200"
+      />
+      {open && (
+        <ul
+          id="obras-listbox"
+          role="listbox"
+          className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-lg border-2 border-purple/50 bg-white py-1 shadow-lg dark:bg-slate-900"
+        >
+          {filtered.length === 0 ? (
+            <li className="px-3 py-2 text-sm text-slate-500">Sin resultados</li>
+          ) : (
+            filtered.map((o) => (
+              <li
+                key={obraKey(o)}
+                role="option"
+                aria-selected={selected !== undefined && obraKey(selected) === obraKey(o)}
+                // mouseDown evita que el blur del input cierre la lista antes del click.
+                onMouseDown={(e) => {
+                  e.preventDefault()
+                  choose(o)
+                }}
+                className="cursor-pointer px-3 py-2 text-sm text-slate-700 hover:bg-cyan/10 dark:text-slate-200"
+              >
+                {obraLabel(o)}
+              </li>
+            ))
+          )}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 function FichaObra({ obra }: { obra: ObraResumen }) {
   const items: { label: string; value: string }[] = [
     { label: 'Obra', value: obra.obraOProceso ?? '-' },
@@ -74,14 +155,14 @@ function FichaObra({ obra }: { obra: ObraResumen }) {
   ]
 
   return (
-    <div className="rounded-xl border border-slate-200/90 bg-white p-4 shadow-md dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-800 bg-slate-900 p-4 shadow-sm">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {items.map((it) => (
           <div
             key={it.label}
-            className="rounded-lg border border-slate-200 bg-slate-50 p-3 shadow-sm dark:border-slate-700 dark:bg-slate-800/60"
+            className="rounded-lg border border-slate-700 bg-slate-800/60 p-3 shadow-sm"
           >
-            <p className="text-xs font-medium uppercase text-slate-500 dark:text-slate-400">{it.label}</p>
+            <p className="text-xs font-medium uppercase text-purple dark:text-cyan">{it.label}</p>
             <p className="mt-1 break-words text-base font-semibold text-slate-900 dark:text-slate-100">{it.value}</p>
           </div>
         ))}
@@ -122,10 +203,11 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
   const goTo = (p: number) => setState({ page: p, rows: obraRows })
 
   return (
-    <div className="rounded-xl border border-slate-200/90 bg-white shadow-md dark:border-slate-800 dark:bg-slate-900">
+    <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-sm">
+      <div className="h-0.5 w-full bg-gradient-siig" />
       <div className="max-h-[40rem] overflow-auto">
-        <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
-          <thead className="sticky top-0 bg-slate-100 dark:bg-slate-800">
+        <table className="min-w-full">
+          <thead className={theadCls}>
             <tr>
               <th className={th}>Certificado</th>
               <th className={th}>Mes</th>
@@ -133,14 +215,14 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
               <th className={th}>Monto Facturado</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+          <tbody>
             {rows.map((c, i) => (
-              <tr key={`${page}-${i}`}>
+              <tr key={`${page}-${i}`} className={trBody}>
                 <td className={td}>{c.certOAjOInforme ?? '-'}</td>
                 <td className={td}>{formatMes(c.mes) || '-'}</td>
                 <td className={td}>
                   {formatFechaCorta(c.pagoFechaDePago) ?? (
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                    <span className="rounded-full border border-magenta/30 bg-magenta/10 px-2 py-0.5 text-xs font-medium text-magenta dark:bg-magenta/20 dark:text-pink-300">
                       En trámite
                     </span>
                   )}
@@ -149,7 +231,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
               </tr>
             ))}
           </tbody>
-          <tfoot className="sticky bottom-0 bg-slate-100 font-semibold dark:bg-slate-800">
+          <tfoot className={tfootCls}>
             <tr>
               <td className={td} colSpan={3}>
                 Total ({obraRows.length} certificados)
@@ -159,7 +241,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
           </tfoot>
         </table>
       </div>
-      <div className="flex items-center justify-between border-t border-slate-200 px-3 py-2 text-sm text-slate-600 dark:border-slate-800 dark:text-slate-400">
+      <div className="flex items-center justify-between border-t border-slate-800 px-3 py-2 text-sm text-slate-400">
         <span>
           Página {page + 1} de {pages}
         </span>
@@ -168,7 +250,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
             type="button"
             disabled={page === 0}
             onClick={() => goTo(page - 1)}
-            className="rounded-md border border-slate-300 px-3 py-1 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:hover:bg-slate-800"
+            className="rounded-md border border-slate-700 bg-slate-800 px-3 py-1 text-slate-200 hover:bg-slate-700 disabled:opacity-50"
           >
             Anterior
           </button>
@@ -176,7 +258,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
             type="button"
             disabled={page >= pages - 1}
             onClick={() => goTo(page + 1)}
-            className="rounded-md border border-slate-300 px-3 py-1 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:hover:bg-slate-800"
+            className="rounded-md border border-slate-700 bg-slate-800 px-3 py-1 text-slate-200 hover:bg-slate-700 disabled:opacity-50"
           >
             Siguiente
           </button>
@@ -197,8 +279,7 @@ export default function Pantalla8EstadoObra() {
   )
 
   const [selectedObraId, setSelectedObraId] = useState<string | null>(null)
-  // Por defecto, el primer registro disponible.
-  const selectedObra = obras.find((o) => obraKey(o) === selectedObraId) ?? obras[0]
+  const selectedObra = obras.find((o) => obraKey(o) === selectedObraId)
 
   return (
     <section className="space-y-6">
@@ -207,27 +288,20 @@ export default function Pantalla8EstadoObra() {
         <ObrasLoader />
       ) : (
         <>
-          <div className="max-w-md">
-            <select
-              value={selectedObra ? obraKey(selectedObra) : ''}
-              onChange={(e) => setSelectedObraId(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 focus:border-cyan focus:outline-none focus:ring-2 focus:ring-cyan/30 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200"
-              aria-label="Obra"
-            >
-              {obras.map((o) => (
-                <option key={obraKey(o)} value={obraKey(o)}>
-                  {obraLabel(o)}
-                </option>
-              ))}
-            </select>
-          </div>
+          <ObraSelector obras={obras} selected={selectedObra} onSelect={setSelectedObraId} />
           {selectedObra ? (
             <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-2">
               <FichaObra obra={selectedObra} />
               <CertificadosTabla data={filteredData} obra={selectedObra} />
             </div>
           ) : (
-            <p className="text-sm text-slate-500">No hay obras disponibles.</p>
+            <div className="rounded-xl border-2 border-dashed border-purple/40 bg-white px-6 py-16 text-center dark:bg-slate-900">
+              <p className="text-base font-medium text-purple dark:text-slate-300">
+                {obras.length === 0
+                  ? 'No hay obras disponibles.'
+                  : 'Seleccione una obra para visualizar la información'}
+              </p>
+            </div>
           )}
         </>
       )}
