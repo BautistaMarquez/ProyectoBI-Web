@@ -37,9 +37,9 @@ export default function FichaObraCard({ obra }: { obra: ObraResumen }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((it) => (
-        <div key={it.label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-          <p className="text-xs font-medium uppercase text-slate-500">{it.label}</p>
-          <p className="mt-2 text-lg font-semibold text-slate-900">{it.value}</p>
+        <div key={it.label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
+          <p className="text-xs font-medium uppercase text-slate-600 dark:text-slate-400">{it.label}</p>
+          <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{it.value}</p>
         </div>
       ))}
     </div>

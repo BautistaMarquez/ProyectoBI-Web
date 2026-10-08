@@ -3,7 +3,7 @@ import PageHeader from '../components/layout/PageHeader'
 import { NAV_ITEMS } from '../config/navigation'
 import { useCertificadosMaster, useObrasResumen } from '../hooks/useAnalyticsQueries'
 import { formatFechaCorta, formatMes, useFilteredCertificados } from '../hooks/useFilteredCertificados'
-import { tfootCls, theadCls, trBody } from '../components/tables/tableStyles'
+import { tbodyCls, tfootCls, theadCls, trBody } from '../components/tables/tableStyles'
 import type { CertificadoMaster, ObraResumen } from '../types/analytics'
 
 const PAGE_SIZE = 25
@@ -155,14 +155,14 @@ function FichaObra({ obra }: { obra: ObraResumen }) {
   ]
 
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900 p-4 shadow-sm">
+    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {items.map((it) => (
           <div
             key={it.label}
-            className="rounded-lg border border-slate-700 bg-slate-800/60 p-3 shadow-sm"
+            className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
           >
-            <p className="text-xs font-medium uppercase text-purple dark:text-cyan">{it.label}</p>
+            <p className="text-xs font-medium uppercase text-slate-600 dark:text-slate-400">{it.label}</p>
             <p className="mt-1 break-words text-base font-semibold text-slate-900 dark:text-slate-100">{it.value}</p>
           </div>
         ))}
@@ -203,7 +203,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
   const goTo = (p: number) => setState({ page: p, rows: obraRows })
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="h-0.5 w-full bg-gradient-siig" />
       <div className="max-h-[40rem] overflow-auto">
         <table className="min-w-full">
@@ -215,7 +215,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
               <th className={th}>Monto Facturado</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className={tbodyCls}>
             {rows.map((c, i) => (
               <tr key={`${page}-${i}`} className={trBody}>
                 <td className={td}>{c.certOAjOInforme ?? '-'}</td>
@@ -241,7 +241,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
           </tfoot>
         </table>
       </div>
-      <div className="flex items-center justify-between border-t border-slate-800 px-3 py-2 text-sm text-slate-400">
+      <div className="flex items-center justify-between border-t border-slate-200 px-3 py-2 text-sm text-slate-600 dark:border-slate-800 dark:text-slate-400">
         <span>
           Página {page + 1} de {pages}
         </span>
@@ -250,7 +250,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
             type="button"
             disabled={page === 0}
             onClick={() => goTo(page - 1)}
-            className="rounded-md border border-slate-700 bg-slate-800 px-3 py-1 text-slate-200 hover:bg-slate-700 disabled:opacity-50"
+            className="rounded-md border border-slate-300 bg-white px-3 py-1 text-slate-700 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
           >
             Anterior
           </button>
@@ -258,7 +258,7 @@ function CertificadosTabla({ data, obra }: { data: CertificadoMaster[]; obra: Ob
             type="button"
             disabled={page >= pages - 1}
             onClick={() => goTo(page + 1)}
-            className="rounded-md border border-slate-700 bg-slate-800 px-3 py-1 text-slate-200 hover:bg-slate-700 disabled:opacity-50"
+            className="rounded-md border border-slate-300 bg-white px-3 py-1 text-slate-700 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
           >
             Siguiente
           </button>

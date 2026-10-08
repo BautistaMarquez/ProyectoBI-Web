@@ -17,7 +17,7 @@ export default function LoginView() {
   const { instance } = useMsal()
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 p-6">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-100 p-6 dark:bg-slate-950">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-magenta/20 blur-3xl"
@@ -28,11 +28,11 @@ export default function LoginView() {
       />
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-siig" />
 
-      <main className="relative w-full max-w-md rounded-2xl border border-white/10 bg-white/95 p-10 text-center shadow-2xl backdrop-blur-md dark:bg-slate-900/90">
+      <main className="relative w-full max-w-md rounded-xl border border-primary/20 bg-white p-10 text-center shadow-2xl shadow-primary/25 dark:border-slate-800 dark:bg-slate-900">
         <h1 className="bg-gradient-to-r from-magenta via-purple to-cyan bg-clip-text text-5xl font-extrabold tracking-tight text-transparent">
           {APP_SHORT_NAME}
         </h1>
-        <p className="mt-3 text-base font-semibold text-slate-800 dark:text-slate-100">{APP_NAME}</p>
+        <p className="mt-3 text-base font-semibold text-slate-900 dark:text-slate-100">{APP_NAME}</p>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
           Ministerio de Infraestructura y Servicios Públicos
         </p>
@@ -42,7 +42,7 @@ export default function LoginView() {
         <button
           type="button"
           onClick={() => void instance.loginRedirect(loginRequest)}
-          className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:scale-[1.02] hover:bg-slate-800 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 active:scale-[0.98]"
+          className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-xl bg-primary px-5 py-3 font-semibold text-white shadow-md shadow-primary/30 transition-all duration-200 hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:ring-1 dark:ring-white/20 dark:focus-visible:ring-white focus-visible:ring-offset-2 active:scale-[0.99]"
         >
           <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
           <span className="relative flex h-7 w-7 items-center justify-center rounded bg-white">

@@ -10,7 +10,7 @@ export default function Sidebar({ collapsed, onNavigate }: SidebarProps) {
   return (
     <aside
       aria-label="Navegación principal"
-      className={`relative z-30 shrink-0 border-r border-slate-200/80 bg-white shadow-sm transition-[width] duration-200 dark:border-slate-800 dark:bg-slate-900 ${
+      className={`relative z-30 shrink-0 border-r border-slate-200 bg-slate-50 transition-[width] duration-200 dark:border-slate-800 dark:bg-slate-900 ${
         collapsed ? 'w-16' : 'w-64 overflow-hidden'
       }`}
     >
@@ -26,8 +26,8 @@ export default function Sidebar({ collapsed, onNavigate }: SidebarProps) {
                 collapsed ? 'justify-center px-2 py-2' : 'gap-3 px-3 py-2 text-sm'
               } ${
                 isActive
-                  ? 'bg-cyan/10 font-semibold text-cyan'
-                  : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
+                  ? 'bg-primary/10 font-semibold text-primary dark:bg-primary/20 dark:text-white'
+                  : 'text-slate-700 hover:bg-slate-200/60 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
               }`
             }
           >

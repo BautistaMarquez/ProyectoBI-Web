@@ -54,10 +54,10 @@ export default function HomePlaceholder() {
   return (
     <section>
       <header className="mb-6">
-        <h2 className="text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-100">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
           Panel de Gestión y Monitoreo
         </h2>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
           Acceso a reportes analíticos de obras públicas, certificaciones y expedientes
         </p>
       </header>
@@ -70,7 +70,7 @@ export default function HomePlaceholder() {
           <li key={item.id}>
             <Link
               to={item.path}
-              className="group flex h-full flex-col justify-between rounded-xl border border-slate-200/90 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan/50 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+              className="group flex h-full flex-col justify-between rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
             >
               <div>
                 <div className="flex items-center gap-3">
@@ -79,11 +79,11 @@ export default function HomePlaceholder() {
                   >
                     <item.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                     {item.label}
                   </h3>
                 </div>
-                <p className="mt-2 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">
+                <p className="mt-2 line-clamp-2 text-sm text-slate-600 dark:text-slate-400">
                   {DESCRIPTIONS[item.id] ?? 'Vista analítica del sistema.'}
                 </p>
               </div>

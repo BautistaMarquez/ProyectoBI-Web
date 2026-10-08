@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AuthGatekeeper from './components/auth/AuthGatekeeper'
 import MainLayout from './components/layout/MainLayout'
+import { ThemeProvider } from './context/ThemeContext'
 import { FilterProvider } from './context/FilterContext'
 import HomePlaceholder from './pages/HomePlaceholder'
 import Pantalla2Devengados from './pages/Pantalla2Devengados'
@@ -13,6 +14,7 @@ import Pantalla8EstadoObra from './pages/Pantalla8EstadoObra'
 
 function App() {
   return (
+    <ThemeProvider>
     <AuthGatekeeper>
     <FilterProvider>
       <BrowserRouter>
@@ -31,6 +33,7 @@ function App() {
       </BrowserRouter>
     </FilterProvider>
     </AuthGatekeeper>
+    </ThemeProvider>
   )
 }
 

@@ -3,7 +3,7 @@ import { formatFechaCorta, formatMes } from '../../hooks/useFilteredCertificados
 import type { CertificadoMaster } from '../../types/analytics'
 import { groupByExpediente } from '../../utils/groupByExpediente'
 import { TableShell } from './TableShell'
-import { td, tdC, tdExp, tdNum, tfootCls, th, thC, theadCls, trBody } from './tableStyles'
+import { td, tdC, tdExp, tdNum, tbodyCls, tfootCls, th, thC, theadCls, trBody } from './tableStyles'
 
 const PAGE_SIZE = 25
 
@@ -43,7 +43,7 @@ export default function DetalleCertificadosTable({ data, defaultSortKey = 'monto
           <th className={th}>Contratista</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={tbodyCls}>
         {rows.map(({ first: c, certificado }, i) => (
           <tr key={`${page}-${i}`} className={trBody}>
             <td className={td}>{c.prestamo ?? '-'}</td>

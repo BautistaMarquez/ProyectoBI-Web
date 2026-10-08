@@ -5,7 +5,7 @@ import type { CertificadoMaster } from '../../types/analytics'
 import { exportToExcel } from '../../utils/exportExcel'
 import { groupByExpediente } from '../../utils/groupByExpediente'
 import { TableShell } from './TableShell'
-import { td, tdC, tdNum, tfootCls, th, thC, theadCls, trBody } from './tableStyles'
+import { td, tdC, tdNum, tbodyCls, tfootCls, th, thC, theadCls, trBody } from './tableStyles'
 
 const PAGE_SIZE = 25
 
@@ -31,7 +31,7 @@ export default function ReportePendientesTable({ data }: { data: CertificadoMast
       pages={pages}
       onPage={(p) => setState({ page: p, data })}
       toolbar={
-        <div className="flex justify-end border-b border-slate-800 px-3 py-2">
+        <div className="flex justify-end border-b border-slate-200 dark:border-slate-800 px-3 py-2">
           <button
             type="button"
             onClick={() => exportToExcel(data, 'reporte-ee-pendientes-fc')}
@@ -55,7 +55,7 @@ export default function ReportePendientesTable({ data }: { data: CertificadoMast
           <th className={th}>Contratista</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={tbodyCls}>
         {rows.map(({ first: c, sumaPorExpediente }, i) => (
           <tr key={`${page}-${i}`} className={trBody}>
             <td className={td}>{c.prestamo ?? '-'}</td>

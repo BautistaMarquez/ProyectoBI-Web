@@ -15,20 +15,20 @@ export default function MainLayout() {
   const problem = error instanceof ApiError ? error.problem : null
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950">
+    <div className="flex min-h-screen flex-col bg-slate-100 dark:bg-slate-950">
       <Navbar showSidebarToggle={!isHome} onToggleSidebar={() => setCollapsed((c) => !c)} />
       <div className="flex flex-1">
         {!isHome && <Sidebar collapsed={collapsed} onNavigate={() => setCollapsed(true)} />}
         <div className="flex min-w-0 flex-1 flex-col">
-      <main className="min-h-screen flex-1 overflow-x-hidden bg-slate-50 p-6 dark:bg-slate-950">
+      <main className="min-h-screen flex-1 overflow-x-hidden bg-slate-100 p-6 dark:bg-slate-950">
         {isLoading && !isHome && (
-          <div className="flex items-center justify-center gap-2 py-16 text-slate-500">
+          <div className="flex items-center justify-center gap-2 py-16 text-slate-500 dark:text-slate-400">
             <Loader2 className="h-6 w-6 animate-spin" />
             Cargando datos...
           </div>
         )}
         {isError && (
-          <div role="alert" className="rounded-md border border-red-200 bg-red-50 p-4 text-red-800">
+          <div role="alert" className="rounded-md border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-900 dark:bg-red-950/50 dark:text-red-200">
             <p className="font-semibold">{problem?.title ?? 'Error de red'}</p>
             <p className="text-sm">{problem?.detail ?? error?.message}</p>
             {problem?.status !== undefined && <p className="text-xs">HTTP {problem.status}</p>}

@@ -47,7 +47,7 @@ export default function Pantalla2Devengados() {
           <KpiCard key={c.label} title={c.label} value={c.value} accentColor={c.accent} />
         ))}
       </div>
-      <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <CertificadosPorPrestamoChart data={filteredData} />
       </div>
       <DetalleCertificadosTable data={filteredData} />

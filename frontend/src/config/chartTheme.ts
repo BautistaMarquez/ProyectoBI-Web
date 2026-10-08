@@ -15,30 +15,34 @@ export function createCurrencyFormatter(currency: 'ARS' | 'USD' = 'ARS') {
 
 export const compactNumber = new Intl.NumberFormat('es-AR', { notation: 'compact' })
 
-/** Configuración común de tooltip: fondo slate oscuro, borde sutil. */
-export const CHART_TOOLTIP_BASE = {
-  trigger: 'axis' as const,
-  axisPointer: { type: 'shadow' as const },
-  backgroundColor: '#0f172a',
-  borderColor: '#334155',
-  borderWidth: 1,
-  padding: [8, 12],
-  textStyle: { color: '#f1f5f9', fontSize: 12 },
-}
-
-export const CHART_AXIS_X = {
-  type: 'category' as const,
-  axisLabel: { color: '#FFFFFF', interval: 0, rotate: 30, overflow: 'truncate' as const, width: 85 },
-  axisLine: { lineStyle: { color: '#475569' } },
-  splitLine: { lineStyle: { color: '#334155' } },
-}
-
-export function chartYAxis(formatter: (v: number) => string) {
+/** Colores de ejes, tooltip y leyenda según el tema activo. */
+export function getChartTheme(isDark: boolean) {
+  const axisColor = isDark ? '#334155' : '#cbd5e1'
   return {
-    type: 'value' as const,
-    axisLabel: { color: '#FFFFFF', formatter },
-    axisLine: { lineStyle: { color: '#475569' } },
-    splitLine: { lineStyle: { color: '#334155' } },
+    tooltip: {
+      trigger: 'axis' as const,
+      axisPointer: { type: 'shadow' as const },
+      backgroundColor: isDark ? '#0f172a' : '#ffffff',
+      borderColor: isDark ? '#334155' : '#e2e8f0',
+      borderWidth: 1,
+      padding: [8, 12],
+      textStyle: { color: isDark ? '#f8fafc' : '#0f172a', fontSize: 12 },
+    },
+    legend: { textStyle: { color: isDark ? '#cbd5e1' : '#334155' } },
+    xAxis: {
+      type: 'category' as const,
+      axisLabel: { color: isDark ? '#94a3b8' : '#64748b', interval: 0, rotate: 30, overflow: 'truncate' as const, width: 85 },
+      axisLine: { lineStyle: { color: axisColor } },
+      axisTick: { lineStyle: { color: axisColor } },
+      splitLine: { lineStyle: { color: isDark ? '#1e293b' : '#f1f5f9' } },
+    },
+    yAxis: (formatter: (v: number) => string) => ({
+      type: 'value' as const,
+      axisLabel: { color: isDark ? '#94a3b8' : '#64748b', formatter },
+      axisLine: { lineStyle: { color: axisColor } },
+      axisTick: { lineStyle: { color: axisColor } },
+      splitLine: { lineStyle: { color: isDark ? '#1e293b' : '#f1f5f9' } },
+    }),
   }
 }
 

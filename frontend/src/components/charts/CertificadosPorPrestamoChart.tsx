@@ -1,14 +1,13 @@
 import ReactECharts from 'echarts-for-react'
 import { useMemo } from 'react'
 import {
-  CHART_AXIS_X,
   CHART_PALETTE,
-  CHART_TOOLTIP_BASE,
   chartGrid,
-  chartYAxis,
   compactNumber,
   createCurrencyFormatter,
+  getChartTheme,
 } from '../../config/chartTheme'
+import { useTheme } from '../../context/ThemeContext'
 import type { CertificadoMaster } from '../../types/analytics'
 
 const money = createCurrencyFormatter('ARS')
@@ -26,6 +25,8 @@ interface TooltipParam {
 }
 
 export default function CertificadosPorPrestamoChart({ data }: Props) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const option = useMemo(() => {
     const groups = new Map<string, { base: number; redet: number }>()
     for (const c of data) {
@@ -38,12 +39,13 @@ export default function CertificadosPorPrestamoChart({ data }: Props) {
     }
     const prestamos = [...groups.keys()].sort((a, b) => a.localeCompare(b, 'es', { numeric: true }))
 
+    const t = getChartTheme(isDark)
     return {
       color: [...CHART_PALETTE.dual],
-      legend: { top: 0, textStyle: { color: '#FFFFFF' } },
+      legend: { top: 0, textStyle: t.legend.textStyle },
       grid: chartGrid(40),
       tooltip: {
-        ...CHART_TOOLTIP_BASE,
+        ...t.tooltip,
         formatter: (params: TooltipParam[]) => {
           const total = params.reduce((acc, p) => acc + p.value, 0)
           const rows = params
@@ -52,8 +54,8 @@ export default function CertificadosPorPrestamoChart({ data }: Props) {
           return `${params[0].axisValue}<br/>${rows}<br/>Total: <b>${money.format(total)}</b>`
         },
       },
-      xAxis: { ...CHART_AXIS_X, data: prestamos },
-      yAxis: chartYAxis((v) => compact.format(v)),
+      xAxis: { ...t.xAxis, data: prestamos },
+      yAxis: t.yAxis((v) => compact.format(v)),
       series: [
         { name: 'Monto Base', type: 'bar', label: { show: false }, stack: 'total', barMaxWidth: 48, itemStyle: { color: CHART_PALETTE.base }, data: prestamos.map((p) => groups.get(p)!.base) },
         {
@@ -66,7 +68,7 @@ export default function CertificadosPorPrestamoChart({ data }: Props) {
         },
       ],
     }
-  }, [data])
+  }, [data, isDark])
 
   return <ReactECharts option={option} style={{ height: 360 }} notMerge />
 }

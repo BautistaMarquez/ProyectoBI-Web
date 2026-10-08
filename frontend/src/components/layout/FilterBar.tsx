@@ -7,7 +7,9 @@ import { useCertificadosMaster } from '../../hooks/useAnalyticsQueries'
 
 
 const selectClass =
-  'w-full bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-2 pr-9 text-xs font-semibold text-slate-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan/40 focus:border-cyan appearance-none bg-none cursor-pointer transition-all'
+  'w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-md px-3 py-2 pr-9 text-xs font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none bg-none cursor-pointer transition-all'
+
+const optionClass = 'bg-white text-slate-800 dark:bg-slate-800 dark:text-slate-100'
 
 const labelClass = 'mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400'
 
@@ -36,7 +38,7 @@ export default function FilterBar() {
   ]
 
   return (
-    <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="flex items-center gap-3">
         <Filter className="h-4 w-4 text-cyan" aria-hidden="true" />
         <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-100">Filtros de Datos</h2>
@@ -80,9 +82,9 @@ export default function FilterBar() {
                 value={filters[key] ?? ''}
                 onChange={(e) => setFilter(key, e.target.value === '' ? null : e.target.value)}
               >
-                <option className="bg-slate-900 text-slate-100 py-1.5" value="">Todos</option>
+                <option className={optionClass} value="">Todos</option>
                 {options.map((o) => (
-                  <option key={o} value={o} className="bg-slate-900 text-slate-100 py-1.5">
+                  <option key={o} value={o} className={optionClass}>
                     {key === 'mes' ? formatMes(o) : o}
                   </option>
                 ))}
